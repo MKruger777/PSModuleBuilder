@@ -1,10 +1,18 @@
 
-$env:modulename = "ClassesModule"
+$env:modulename = "PSModuleBuilder"
 $env:ModuleVersion = "1.0.0.0"
 $env:Author = "Morné Kruger"
-$env:artifactroot = "C:\dev\PowerShell\classes\clsBuilder\BuildArtifacts"
-$env:ProjectRoot = "C:\dev\PowerShell\classes\clsBuilder"
+$env:ProjectRoot = Get-ScriptDirectory
+$env:artifactroot =  "$env:ProjectRoot\BuildArtifacts"
 $env:DeployRootDir = "c:\Program Files\WindowsPowerShell\Modules"
+
+
+function Get-ScriptDirectory
+{
+  $Invocation = (Get-Variable MyInvocation -Scope 1).Value
+  $ExecutionPath = Split-Path $Invocation.MyCommand.Path
+  return $ExecutionPath
+}
 
 function Clean-BuildEnvironment 
 {
@@ -56,11 +64,10 @@ function Deploy-Module
 function Load-Module
 {
     Write-Host "Loading module ..."
-    $ModuleName = "ClassesModule"
-    if ((Get-Module $ModuleName))
+    if ((Get-Module $env:modulename))
     {
-        Write-Host "Module $ModuleName is allready loaded and will be removed ..."
-        Remove-Module $ModuleName
+        Write-Host "Module $env:modulename is allready loaded and will be removed ..."
+        Remove-Module $env:modulename
     } 
 
     Import-Module -name "$env:DeployRootDir\$env:ModuleName\$env:ModuleName.psm1" -Force #orig command -RequiredVersion $env:ModuleVersion 

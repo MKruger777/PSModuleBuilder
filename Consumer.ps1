@@ -1,5 +1,5 @@
 
-using module "C:\Program Files\WindowsPowerShell\Modules\ClassesModule\ClassesModule.psm1"
+using module "C:\Program Files\WindowsPowerShell\Modules\PSModuleBuilder\PSModuleBuilder.psm1"
 
 $Dehlia = [Person]::new("Hotsaus", 32);
 Write-Host $Dehlia.Greet(); 
